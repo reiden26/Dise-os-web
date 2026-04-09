@@ -1,36 +1,44 @@
 import { Link } from 'react-router-dom'
 
-function DemoCard({ demo }) {
+function DemoCard({ demo, index }) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-[#d8c7b9] bg-[#fffdf9] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-      {/* Mini screenshot del demo para dar contexto real del estilo */}
-      <div className="relative bg-[#efe5d9] p-3">
-        <div className="mb-2 flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-        </div>
-        <div className="relative overflow-hidden rounded-lg border border-[#d8c7b9]">
-          <img
-            src={demo.previewImage}
-            alt={`Vista previa ${demo.name}`}
-            className="h-36 w-full object-cover saturate-[0.88] sepia-[0.1] transition-transform duration-500 group-hover:scale-105"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(245,233,220,0.10)_0%,rgba(186,124,93,0.18)_100%)]" />
+    <article
+      className="group relative overflow-hidden rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-500 hover:-translate-y-2"
+      style={{ animationDelay: `${index * 0.1}s` }}
+    >
+      {/* Imagen */}
+      <div className="relative h-48 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10" />
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+          style={{ backgroundImage: `url(${demo.previewImage})` }}
+        />
+        <div className="absolute top-4 left-4 z-20">
+          <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+            {demo.category}
+          </span>
         </div>
       </div>
-      <div className="space-y-3 p-5">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{demo.category}</p>
-        <h3 className="text-lg font-semibold text-slate-900">{demo.name}</h3>
+
+      {/* Contenido */}
+      <div className="relative p-6 z-20">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+          {demo.name}
+        </h3>
+        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+          {demo.description || 'Proyecto profesional con diseño moderno y código limpio.'}
+        </p>
         <Link
           to={`/demo/${demo.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center rounded-lg border border-[#b06a4f]/50 px-4 py-2 text-sm text-[#6b3f2d] transition-all duration-300 hover:bg-[#f3dfd5]"
+          className="inline-flex items-center gap-2 text-indigo-400 font-medium hover:text-indigo-300 transition-colors group/link"
         >
-          Ver Preview
+          Ver proyecto
+          <span className="transform transition-transform group-hover/link:translate-x-1">→</span>
         </Link>
       </div>
+
+      {/* Efecto de brillo */}
+      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-purple-500/0 to-indigo-500/0 group-hover:via-purple-500/5 transition-all duration-500" />
     </article>
   )
 }
