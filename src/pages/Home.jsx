@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { demosRegistry } from '../data/demosRegistry'
 
-// Componente de iconos
+// Icons
 const Icons = {
   Code: () => (
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,11 +34,6 @@ const Icons = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
     </svg>
   ),
-  Download: () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-    </svg>
-  ),
   ArrowRight: () => (
     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -46,67 +41,58 @@ const Icons = {
   ),
 }
 
-// Skill Tag Component
+// Skill Tag con colores solidos
 const SkillTag = ({ name, level }) => (
-  <div className="group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700/50 p-4 hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-1">
-    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    <div className="relative">
-      <h4 className="font-semibold text-white mb-1">{name}</h4>
-      <div className="w-full bg-slate-700 rounded-full h-2">
-        <div
-          className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all duration-1000"
-          style={{ width: `${level}%` }}
-        />
-      </div>
+  <div className="group p-4 rounded-xl bg-slate-800 border border-slate-700 hover:border-blue-500 transition-all duration-300">
+    <h4 className="font-semibold text-white mb-2">{name}</h4>
+    <div className="w-full bg-slate-700 rounded-full h-2">
+      <div
+        className="bg-blue-500 h-2 rounded-full"
+        style={{ width: `${level}%` }}
+      />
     </div>
   </div>
 )
 
-// Project Card Component
+// Project Card - VERSION CORREGIDA
 const ProjectCard = ({ demo, index }) => (
-  <div
-    className="group relative overflow-hidden rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-500 hover-lift opacity-0"
-    style={{ animationDelay: `${index * 0.1}s` }}
-  >
+  <div className="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500 transition-all duration-300 hover:-translate-y-2">
     {/* Imagen */}
     <div className="relative h-48 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10" />
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-        style={{ backgroundImage: `url(${demo.previewImage})` }}
+      <img
+        src={demo.previewImage}
+        alt={demo.name}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
       <div className="absolute top-4 left-4 z-20">
-        <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-600 text-white">
           {demo.category}
         </span>
       </div>
     </div>
 
     {/* Contenido */}
-    <div className="relative p-6 z-20">
-      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
         {demo.name}
       </h3>
-      <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+      <p className="text-slate-400 text-sm mb-4">
         {demo.description || 'Proyecto profesional con diseño moderno y código limpio.'}
       </p>
       <Link
         to={`/demo/${demo.slug}`}
-        className="inline-flex items-center gap-2 text-indigo-400 font-medium hover:text-indigo-300 transition-colors group/link"
+        className="inline-flex items-center gap-2 text-blue-400 font-medium hover:text-blue-300 transition-colors"
       >
         Ver proyecto
-        <span className="transform transition-transform group-hover/link:translate-x-1">→</span>
+        <span>→</span>
       </Link>
     </div>
-
-    {/* Efecto de brillo */}
-    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-purple-500/0 to-indigo-500/0 group-hover:via-purple-500/5 transition-all duration-500" />
   </div>
 )
 
 function Home() {
   const [activeTab, setActiveTab] = useState('all')
-  const [isVisible, setIsVisible] = useState({})
 
   const categories = [
     { id: 'all', label: 'Todos' },
@@ -136,43 +122,23 @@ function Home() {
     ? demosRegistry
     : demosRegistry.filter(demo => demo.categoryKey === activeTab)
 
-  // Intersection Observer para animaciones
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(prev => ({ ...prev, [entry.target.id]: true }))
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    )
-
-    document.querySelectorAll('[data-animate]').forEach(el => {
-      observer.observe(el)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen bg-slate-900">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
                 <span className="text-white font-bold text-lg">D</span>
               </div>
-              <span className="text-white font-bold text-xl">Dev<span className="text-indigo-400">Portfolio</span></span>
+              <span className="text-white font-bold text-xl">Dev<span className="text-blue-400">Portfolio</span></span>
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#about" className="text-slate-300 hover:text-white transition-colors">Sobre mí</a>
               <a href="#projects" className="text-slate-300 hover:text-white transition-colors">Proyectos</a>
               <a href="#skills" className="text-slate-300 hover:text-white transition-colors">Skills</a>
-              <a href="#contact" className="px-4 py-2 rounded-full bg-indigo-500 text-white font-medium hover:bg-indigo-600 transition-colors">
+              <a href="#contact" className="px-4 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
                 Contactar
               </a>
             </div>
@@ -182,23 +148,25 @@ function Home() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-float" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float delay-500" />
+        {/* Background */}
+        <div className="absolute inset-0 bg-slate-900">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-20 right-20 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-20 w-72 h-72 bg-cyan-600/20 rounded-full blur-3xl" />
+          </div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-up">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-6">
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/10 border border-blue-600/30 text-blue-400 mb-6">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
                 <span className="text-sm font-medium">Disponible para proyectos</span>
               </div>
 
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
                 Desarrollador
-                <span className="gradient-text"> Full Stack</span>
+                <span className="text-blue-400"> Full Stack</span>
                 <br />
                 & Diseñador UI
               </h1>
@@ -211,14 +179,14 @@ function Home() {
               <div className="flex flex-wrap gap-4">
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all hover:-translate-y-1"
                 >
                   Ver proyectos
                   <Icons.ArrowRight />
                 </a>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-slate-600 text-white font-semibold hover:border-indigo-500 hover:bg-indigo-500/10 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-slate-600 text-white font-semibold hover:border-blue-500 hover:bg-blue-600/10 transition-all"
                 >
                   Contactar
                 </a>
@@ -237,55 +205,27 @@ function Home() {
               </div>
             </div>
 
-            {/* Hero Visual */}
-            <div className="relative hidden lg:block">
-              <div className="relative z-10 animate-float">
-                <div className="relative p-8 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 shadow-2xl">
-                  <div className="flex items-center gap-3 mb-6">
+            {/* Code Visual */}
+            <div className="hidden lg:block">
+              <div className="relative">
+                <div className="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+                  <div className="flex items-center gap-2 mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500" />
                     <div className="w-3 h-3 rounded-full bg-yellow-500" />
                     <div className="w-3 h-3 rounded-full bg-green-500" />
                   </div>
-                  <div className="space-y-3 font-mono text-sm">
-                    <div className="text-slate-400">const <span className="text-indigo-400">developer</span> = {'{'}</div>
+                  <div className="font-mono text-sm space-y-2">
+                    <div className="text-slate-400">const <span className="text-blue-400">developer</span> = {'{'}</div>
                     <div className="pl-4 text-slate-300">
                       name: <span className="text-green-400">'Tu Nombre'</span>,
                     </div>
                     <div className="pl-4 text-slate-300">
-                      role: <span className="text-green-400">'Full Stack Developer'</span>,
+                      role: <span className="text-green-400">'Full Stack'</span>,
                     </div>
                     <div className="pl-4 text-slate-300">
-                      skills: [<span className="text-green-400">'React'</span>, <span className="text-green-400">'TypeScript'</span>, <span className="text-green-400">'Node.js'</span>],
-                    </div>
-                    <div className="pl-4 text-slate-300">
-                      passion: <span className="text-green-400">'Creating amazing user experiences'</span>
+                      skills: [<span className="text-green-400">'React'</span>, <span className="text-green-400">'TypeScript'</span>],
                     </div>
                     <div className="text-slate-400">{'}'}</div>
-                  </div>
-                </div>
-
-                {/* Floating cards */}
-                <div className="absolute -top-4 -right-4 p-4 rounded-xl glass border border-slate-700/50 animate-float delay-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
-                      <Icons.Code />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold">Clean Code</div>
-                      <div className="text-slate-400 text-sm">TypeScript + React</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute -bottom-4 -left-4 p-4 rounded-xl glass border border-slate-700/50 animate-float delay-400">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                      <Icons.Design />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold">Modern UI</div>
-                      <div className="text-slate-400 text-sm">Tailwind CSS</div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -295,16 +235,12 @@ function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 border-y border-slate-800/50">
+      <section className="py-20 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="text-center animate-fade-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-4xl lg:text-5xl font-bold gradient-text mb-2">{stat.value}</div>
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-4xl lg:text-5xl font-bold text-blue-400 mb-2">{stat.value}</div>
                 <div className="text-slate-400">{stat.label}</div>
               </div>
             ))}
@@ -317,7 +253,7 @@ function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-              Proyectos <span className="gradient-text">Destacados</span>
+              Proyectos <span className="text-blue-400">Destacados</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
               Una selección de mis trabajos más recientes, desde aplicaciones SaaS hasta e-commerce de alto rendimiento.
@@ -330,10 +266,10 @@ function Home() {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-6 py-3 rounded-full font-medium transition-all ${
                   activeTab === cat.id
-                    ? 'bg-indigo-500 text-white shadow-glow'
-                    : 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
                 }`}
               >
                 {cat.label}
@@ -341,7 +277,7 @@ function Home() {
             ))}
           </div>
 
-          {/* Projects Grid */}
+          {/* Projects Grid - AHORA SI FUNCIONA */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredDemos.map((demo, index) => (
               <ProjectCard key={demo.slug} demo={demo} index={index} />
@@ -352,7 +288,7 @@ function Home() {
           <div className="text-center mt-12">
             <Link
               to="#"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-indigo-500/30 text-indigo-400 font-semibold hover:bg-indigo-500/10 hover:border-indigo-500/50 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-blue-600/30 text-blue-400 font-semibold hover:bg-blue-600/10 transition-all"
             >
               Ver todos los proyectos
               <Icons.ArrowRight />
@@ -362,12 +298,12 @@ function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-24 bg-slate-900/50">
+      <section id="skills" className="py-24 bg-slate-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-                Habilidades & <span className="gradient-text">Tecnologías</span>
+                Habilidades & <span className="text-blue-400">Tecnologías</span>
               </h2>
               <p className="text-slate-400 text-lg mb-8">
                 Domino un stack tecnológico moderno y escalable. Mi enfoque está en crear
@@ -375,44 +311,39 @@ function Home() {
               </p>
 
               <div className="grid grid-cols-2 gap-4">
-                {skills.map((skill, index) => (
-                  <div key={skill.name} className="animate-fade-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <SkillTag {...skill} />
-                  </div>
+                {skills.map((skill) => (
+                  <SkillTag key={skill.name} {...skill} />
                 ))}
               </div>
             </div>
 
             {/* Skills Visual */}
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Icons.Code, label: 'Frontend', desc: 'React, Vue, Next.js' },
-                  { icon: Icons.Rocket, label: 'Backend', desc: 'Node.js, Python, APIs' },
-                  { icon: Icons.Design, label: 'Design', desc: 'Figma, Tailwind' },
-                  { icon: Icons.Code, label: 'Database', desc: 'PostgreSQL, MongoDB' },
-                ].map((item, index) => (
-                  <div
-                    key={item.label}
-                    className="p-6 rounded-2xl glass border border-slate-700/50 hover:border-indigo-500/30 transition-all duration-300 group hover:-translate-y-2"
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
-                      <item.icon />
-                    </div>
-                    <h3 className="text-white font-semibold mb-1">{item.label}</h3>
-                    <p className="text-slate-400 text-sm">{item.desc}</p>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { icon: Icons.Code, label: 'Frontend', desc: 'React, Vue, Next.js' },
+                { icon: Icons.Rocket, label: 'Backend', desc: 'Node.js, Python, APIs' },
+                { icon: Icons.Design, label: 'Design', desc: 'Figma, Tailwind' },
+                { icon: Icons.Code, label: 'Database', desc: 'PostgreSQL, MongoDB' },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="p-6 rounded-2xl bg-slate-800 border border-slate-700 hover:border-blue-500 transition-all hover:-translate-y-1"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4">
+                    <item.icon />
                   </div>
-                ))}
-              </div>
+                  <h3 className="text-white font-semibold mb-1">{item.label}</h3>
+                  <p className="text-slate-400 text-sm">{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section id="contact" className="py-24 relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
             ¿Listo para tu próximo proyecto?
           </h2>
@@ -423,16 +354,15 @@ function Home() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:tu@email.com"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all hover:-translate-y-1"
             >
               <Icons.Mail />
               Enviar email
             </a>
             <a
               href="#"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-slate-600 text-white font-semibold hover:border-indigo-500 hover:bg-indigo-500/10 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-slate-600 text-white font-semibold hover:border-blue-500 hover:bg-blue-600/10 transition-all"
             >
-              <Icons.Download />
               Descargar CV
             </a>
           </div>
@@ -440,11 +370,11 @@ function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-slate-800/50">
+      <footer className="py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">D</span>
               </div>
               <span className="text-white font-semibold">DevPortfolio</span>
