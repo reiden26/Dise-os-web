@@ -19,12 +19,12 @@ export const demosRegistry = [
   },
   {
     slug: 'interstellar-saas',
-    name: 'SaaS Interstellar',
+    name: 'Nexus - SaaS Platform',
     category: 'Landing Pages SaaS / Tech',
     categoryKey: 'saas',
-    previewImage: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
     component: Interstellar,
-    description: 'Diseño futurista con elementos espaciales, perfecto para startups tecnológicas innovadoras.',
+    description: 'Landing page profesional para plataforma SaaS. Diseño moderno con pricing, testimonials, stats y dashboard mockup. Colores sólidos azules.',
   },
   {
     slug: 'minimal-lineal',
