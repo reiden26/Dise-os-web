@@ -1,102 +1,79 @@
-# DevPortfolio - Portafolio Profesional
+# Diseños Web
 
-Portafolio profesional moderno y competitivo diseñado para promover mi carrera como desarrollador Full Stack. Incluye una colección de proyectos reales con diseños premium, animaciones avanzadas y código limpio.
+Coleccion de plantillas de diseno web modernas construidas con React y Tailwind CSS. Proyecto enfocado en demostrar habilidades de desarrollo frontend y diseno UI/UX.
 
-## 🎯 Objetivo
+## Descripcion
 
-Este portafolio demuestra mis habilidades en:
-- **Frontend**: React, TypeScript, Tailwind CSS, animaciones avanzadas
-- **UI/UX Design**: Diseños modernos, glassmorphism, gradientes dinámicos
-- **Responsive**: Experiencia perfecta en todos los dispositivos
-- **Performance**: Código optimizado, lazy loading, best practices
+Este repositorio contiene multiples landing pages y componentes reutilizables organizados por categoria. Cada plantilla esta diseñada con atencion al detalle, accesibilidad y responsive design.
 
-## 🚀 Proyectos Destacados
+## Caracteristicas
 
-### Landing Pages
-| Proyecto | Descripción | Tecnologías |
-|----------|-------------|-------------|
-| **Fútbol Elite** | Landing deportiva moderna con animaciones de contadores y diseño profesional | React, Tailwind, Intersection Observer |
-| **SaaS Interstellar** | Diseño futurista espacial para startups tech | React, Tailwind |
-| **Minimal Lineal** | Estética editorial minimalista para SaaS | React, Tailwind |
+- Diseno moderno con glassmorphism y gradientes
+- Totalmente responsive (mobile-first)
+- Animaciones suaves con CSS
+- Navegacion por categorias
+- Componentes reutilizables
+- Optimizado para rendimiento
 
-### E-commerce
-| Proyecto | Descripción | Tecnologías |
-|----------|-------------|-------------|
-| **Luxury Fashion** | Tienda de lujo con experiencia premium | React, Tailwind |
-| **Cyberpunk Store** | Estética neón y alto contraste | React, Tailwind |
+## Stack Tecnologico
 
-### Blog / Editorial
-| Proyecto | Descripción | Tecnologías |
-|----------|-------------|-------------|
-| **Classic Magazine** | Layout periodístico tradicional | React, Tailwind |
-| **Newsletter Modern** | Diseño contemporáneo para newsletters | React, Tailwind |
+- React 18
+- Vite
+- Tailwind CSS 3.4
+- React Router DOM
+- Intersection Observer API
 
-## 🛠 Stack Tecnológico
-
-- **Framework**: React 18 + Vite
-- **Estilos**: Tailwind CSS 3.4
-- **Routing**: React Router DOM
-- **Animaciones**: CSS Animations + Intersection Observer API
-- **Iconos**: SVG personalizados
-- **Build**: Vite
-
-## 🎨 Características del Portafolio
-
-- **Diseño Dark Mode**: Paleta moderna con fondo oscuro y acentos en indigo/púrpura
-- **Animaciones**: Fade-up, slide, scale-in, float effects
-- **Glassmorphism**: Efectos de cristal en navbar y cards
-- **Gradientes Dinámicos**: Textos y bordes con gradientes animados
-- **Responsive**: Mobile-first, breakpoints optimizados
-- **Performance**: Lazy loading, código dividido
-
-## 🚀 Instalación y Uso
-
-```bash
-# Clonar repositorio
-git clone [tu-repo-url]
-
-# Instalar dependencias
-npm install
-
-# Iniciar servidor de desarrollo
-npm run dev
-
-# Construir para producción
-npm run build
-```
-
-## 📁 Estructura del Proyecto
+## Estructura
 
 ```
 src/
-├── components/        # Componentes reutilizables
-│   ├── DemoCard.jsx
-│   └── Navbar.jsx
-├── pages/            # Páginas principales
-│   ├── Home.jsx      # Portafolio con Hero, Skills, Projects
-│   └── DemoViewer.jsx # Visualizador de demos
-├── data/             # Datos y registro
-│   └── demosRegistry.js
-├── demos/            # Componentes de demos
+├── components/      # Componentes reutilizables
+├── pages/           # Paginas principales
+├── data/            # Registro de demos
+├── demos/           # Plantillas por categoria
 │   ├── saas/
 │   ├── ecommerce/
 │   ├── blog/
 │   └── landing/
-└── assets/           # Imágenes y recursos
+└── assets/
 ```
 
-## 🔗 Demo en Vivo
+## Instalacion
 
-[Ver portafolio en línea](tu-url-de-deploy)
+```bash
+git clone https://github.com/reiden26/Dise-os-web.git
+cd Dise-os-web
+npm install
+npm run dev
+```
 
-## 📞 Contacto
+## Scripts disponibles
 
-- 📧 Email: tu@email.com
-- 💼 LinkedIn: [tu-linkedin](https://linkedin.com/in/tu-perfil)
-- 🐙 GitHub: [tu-github](https://github.com/tu-usuario)
+- `npm run dev` - Servidor de desarrollo
+- `npm run build` - Build de produccion
+- `npm run preview` - Previsualizar build
+
+## Demos incluidas
+
+**SaaS / Tech**
+- Nexus Platform
+- Minimal Lineal
+
+**E-commerce**
+- Luxury Fashion
+- Cyberpunk Store
+
+**Blog / Editorial**
+- Classic Magazine
+- Newsletter Modern
+
+**Landing Pages**
+- Futbol Elite
+
+## Contacto
+
+Para consultas o colaboraciones, contactar via GitHub.
 
 ---
 
-**Disponible para proyectos freelance y colaboraciones.**
-
-Diseñado y desarrollado con ❤️ usando React + Tailwind CSS
+Desarrollado con React y Tailwind CSS
